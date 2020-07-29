@@ -77,4 +77,8 @@ dependencies {
 
     //for livedata
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+
+    //for navigation
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.2.1'
 }

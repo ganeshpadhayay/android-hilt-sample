@@ -15,8 +15,10 @@ import kotlinx.coroutines.launch
  * We would be using MVI here which is basically an enhanced MVVM pattern
  */
 @ExperimentalCoroutinesApi
-class MainViewModel @ViewModelInject constructor(@Assisted private val savedStateHandle: SavedStateHandle,
-                                                 private val mainRepository: MainRepository) : ViewModel() {
+class MainViewModel @ViewModelInject constructor(
+    @Assisted private val savedStateHandle: SavedStateHandle,
+    private val mainRepository: MainRepository
+) : ViewModel() {
 
     private val _dataState: MutableLiveData<DataState<List<Blog>>> = MutableLiveData()
 
@@ -27,10 +29,10 @@ class MainViewModel @ViewModelInject constructor(@Assisted private val savedStat
             when (mainStateEvent) {
                 is MainStateEvent.GetBlogEvents -> {
                     mainRepository.getBlogs()
-                            .onEach {
-                                _dataState.value = it
-                            }
-                            .launchIn(viewModelScope)
+                        .onEach {
+                            _dataState.value = it
+                        }
+                        .launchIn(viewModelScope)
                 }
 
                 is MainStateEvent.None -> {
