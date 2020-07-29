@@ -9,6 +9,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Inject
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 /***
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        println(someClass.showWelcomeMessage())
+        println(someClass.showWelcomeMessage1() + "----------" + someClass.showWelcomeMessage2())
     }
 }
 
@@ -34,9 +35,13 @@ class MainActivity : AppCompatActivity() {
  * Dagger in the background creating this dependency at compile time and injecting it into the activity at run time
  * Here we are injecting SomeOtherClass via constructor so it is a constructor injection
  */
-class SomeClass @Inject constructor(private val someInterfaceImpl: SomeInterface, private val gson: Gson) {
-    fun showWelcomeMessage(): String {
-        return "Hi There, " + someInterfaceImpl.getAThing() + gson.hashCode()
+class SomeClass @Inject constructor(@Impl1 private val someInterfaceImpl1: SomeInterface, @Impl2 private val someInterfaceImpl2: SomeInterface) {
+    fun showWelcomeMessage1(): String {
+        return "Hi There, " + someInterfaceImpl1.getAThing()
+    }
+
+    fun showWelcomeMessage2(): String {
+        return "Hi There, " + someInterfaceImpl2.getAThing()
     }
 }
 
@@ -51,9 +56,15 @@ interface SomeInterface {
     fun getAThing(): String
 }
 
-class SomeInterfaceImpl @Inject constructor() : SomeInterface {
+class SomeInterfaceImpl1 @Inject constructor() : SomeInterface {
     override fun getAThing(): String {
-        return "A Thing"
+        return "A Thing1"
+    }
+}
+
+class SomeInterfaceImpl2 @Inject constructor() : SomeInterface {
+    override fun getAThing(): String {
+        return "A Thing2"
     }
 }
 
@@ -80,10 +91,18 @@ class SomeInterfaceImpl @Inject constructor() : SomeInterface {
 @Module
 class MyModule {
 
+    @Impl1
     @Singleton
     @Provides
-    fun provideSomeInterface(): SomeInterface {
-        return SomeInterfaceImpl()
+    fun provideSomeInterface1(): SomeInterface {
+        return SomeInterfaceImpl1()
+    }
+
+    @Impl2
+    @Singleton
+    @Provides
+    fun provideSomeInterface2(): SomeInterface {
+        return SomeInterfaceImpl2()
     }
 
     @Singleton
@@ -93,3 +112,15 @@ class MyModule {
     }
 
 }
+
+/***
+ * The problem of providing two objects of the same types can be solved using @Named annotation or maybe using scopes or we can
+ * also make custom annotation to solve this issue
+ */
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class Impl1
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class Impl2
