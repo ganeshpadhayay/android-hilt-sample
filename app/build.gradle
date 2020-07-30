@@ -15,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.example.android_hilt_sample.MyTestRunner"
     }
 
     buildTypes {
@@ -32,6 +32,9 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
     }
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.0'
+    }
 }
 
 dependencies {
@@ -47,6 +50,7 @@ dependencies {
 
     //for testing
     testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
@@ -81,4 +85,14 @@ dependencies {
     //for navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.2.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.1'
+
+    //for hilt testing
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+    //for fragment testing
+    def fragment_version = "1.3.0-alpha06"
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
+    //for core activity testing
+    def test_version = "1.2.0"
+    androidTestImplementation "androidx.test:core-ktx:$test_version"
 }
