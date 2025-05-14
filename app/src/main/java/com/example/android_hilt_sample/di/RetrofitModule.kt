@@ -6,15 +6,14 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 @Module
 object RetrofitModule {
-
     @Singleton
     @Provides
     fun provideGsonBuilder(): Gson {
@@ -25,8 +24,8 @@ object RetrofitModule {
     @Provides
     fun provideRetrofit(gson: Gson): Retrofit.Builder {
         return Retrofit.Builder()
-                .baseUrl("https://open-api.xyz/placeholder/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
+            .baseUrl("https://open-api.xyz/placeholder/")
+            .addConverterFactory(GsonConverterFactory.create(gson))
     }
 
     @Singleton
@@ -34,5 +33,5 @@ object RetrofitModule {
     fun provideBlogService(retrofit: Retrofit.Builder): BlogRetrofit {
         return retrofit.build().create(BlogRetrofit::class.java)
     }
-    
+
 }

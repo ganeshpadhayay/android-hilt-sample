@@ -10,10 +10,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class MainRepository constructor(private val blogDao: BlogDao,
-                                 private val blogRetrofit: BlogRetrofit,
-                                 private val cacheMapper: CacheMapper,
-                                 private val networkMapper: NetworkMapper) {
+class MainRepository(private val blogDao: BlogDao,
+                     private val blogRetrofit: BlogRetrofit,
+                     private val cacheMapper: CacheMapper,
+                     private val networkMapper: NetworkMapper) {
 
     suspend fun getBlogs(): Flow<DataState<List<Blog>>> = flow {
         emit(DataState.Loading)

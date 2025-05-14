@@ -1,5 +1,6 @@
 package com.example.android_hilt_sample.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -7,25 +8,29 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.android_hilt_sample.R
+import com.example.android_hilt_sample.databinding.FragmentMainBinding
 import com.example.android_hilt_sample.model.Blog
 import com.example.android_hilt_sample.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class MainFragment constructor(private val someString: String) : Fragment(R.layout.fragment_main) {
+class MainFragment(private val someString: String) : Fragment(R.layout.fragment_main) {
 
-    private val TAG: String = "AppDebug"
+    private val tag: String = "AppDebug"
 
     private val viewModel: MainViewModel by viewModels()
 
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentMainBinding.bind(view)
         subscribeObservers()
         viewModel.setStateEvent(MainStateEvent.GetBlogEvents)
-        Log.d(TAG, "Hey look! ${someString}")
+        Log.d(tag, "Hey look! $someString")
     }
 
     private fun subscribeObservers() {
@@ -46,8 +51,9 @@ class MainFragment constructor(private val someString: String) : Fragment(R.layo
         })
     }
 
+    @SuppressLint("SetTextI18n")
     private fun displayError(message: String?) {
-        if (message != null) text.text = message else text.text = "Unknown error."
+        if (message != null) binding.text.text = message else binding.text.text = "Unknown error."
     }
 
     private fun appendBlogTitles(blogs: List<Blog>) {
@@ -55,10 +61,15 @@ class MainFragment constructor(private val someString: String) : Fragment(R.layo
         for (blog in blogs) {
             sb.append(blog.title + "\n")
         }
-        text.text = sb.toString()
+        binding.text.text = sb.toString()
     }
 
     private fun displayProgressBar(isDisplayed: Boolean) {
-        progress_bar.visibility = if (isDisplayed) View.VISIBLE else View.GONE
+        binding.progressBar.visibility = if (isDisplayed) View.VISIBLE else View.GONE
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

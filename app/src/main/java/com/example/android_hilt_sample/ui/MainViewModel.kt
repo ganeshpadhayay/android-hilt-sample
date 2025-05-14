@@ -1,6 +1,5 @@
 package com.example.android_hilt_sample.ui
 
-import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.example.android_hilt_sample.model.Blog
@@ -16,7 +15,6 @@ import kotlinx.coroutines.launch
  */
 @ExperimentalCoroutinesApi
 class MainViewModel @ViewModelInject constructor(
-    @Assisted private val savedStateHandle: SavedStateHandle,
     private val mainRepository: MainRepository
 ) : ViewModel() {
 
