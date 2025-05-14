@@ -61,55 +61,42 @@ kapt {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.10"
     implementation 'androidx.core:core-ktx:1.16.0'
 
-    // Support and Constraint Layout
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
 
-    // Testing
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
-
-    // Hilt
     implementation "com.google.dagger:hilt-android:2.49"
     kapt "com.google.dagger:hilt-android-compiler:2.49"
 
-    // Hilt ViewModel
     implementation "androidx.hilt:hilt-navigation-fragment:1.2.0"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
     kapt "androidx.hilt:hilt-compiler:1.2.0"
 
-    // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
-    // Room
     implementation "androidx.room:room-runtime:2.7.1"
     implementation "androidx.room:room-ktx:2.7.1"
     //noinspection KaptUsageInsteadOfKsp
     kapt "androidx.room:room-compiler:2.7.1"
 
-    // ViewModel Injection using Hilt
     implementation "androidx.fragment:fragment-ktx:1.8.6"
 
-    // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.9.0"
 
-    // Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.9.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.9.0'
 
-    // Hilt Testing
     androidTestImplementation "com.google.dagger:hilt-android-testing:2.48"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.49"
 
-    // Fragment Testing
     debugImplementation "androidx.fragment:fragment-testing:1.8.6"
 
-    // Core Activity Testing
     androidTestImplementation "androidx.test:core-ktx:1.6.1"
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 }
